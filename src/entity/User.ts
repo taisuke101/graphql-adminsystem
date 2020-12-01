@@ -16,8 +16,8 @@ export class User extends Model {
     password: string;
 
     @OneToMany(() => Employee, employee => employee.user)
-    employee: Employee[];
+    employee: Employee;
 
     @OneToMany(() => Section, section => section.user)
-    section: Section[];
+    section: Section;
 }

@@ -29,7 +29,7 @@ const Header: FC = () => {
                     active={activeItem === '社員一覧'}
                     onClick={handleItemClick}
                     as={Link}
-                    to='/employees'
+                    to='/users'
                 />
                 <Menu.Item 
                     name='新規登録'

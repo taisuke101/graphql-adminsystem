@@ -1,9 +1,10 @@
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Home from './pages/Home';
-import Employee from './pages/Employee';
+import Users from './pages/Users';
 import Create from './pages/Create';
 import Header from './components/Header';
+import UserDetail from './pages/UserDetail';
 
 
 import { Container } from 'semantic-ui-react'; 
@@ -16,8 +17,9 @@ function App() {
       <Container>
         <Header />
         <Route exact path='/' component={Home} />
-        <Route exact path='/employees' component={Employee} />
+        <Route exact path='/users' component={Users} />
         <Route exact path='/register' component={Create} />
+        <Route exact path='/users/:uuid' component={UserDetail} />
       </Container>
     </Router>
   );
