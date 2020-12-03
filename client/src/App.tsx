@@ -5,6 +5,7 @@ import Users from './pages/Users';
 import Create from './pages/Create';
 import Header from './components/Header';
 import UserDetail from './pages/UserDetail';
+import SuccessUser from './pages/SuccessUser';
 
 
 import { Container } from 'semantic-ui-react'; 
@@ -20,6 +21,7 @@ function App() {
         <Route exact path='/users' component={Users} />
         <Route exact path='/register' component={Create} />
         <Route exact path='/users/:uuid' component={UserDetail} />
+        <Route exact path='/success/user' component={SuccessUser} />
       </Container>
     </Router>
   );

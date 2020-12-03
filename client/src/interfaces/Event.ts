@@ -1,4 +1,5 @@
-export interface Event {
+export interface Event{
+    
     handleItemClick: (event: React.MouseEvent<HTMLElement>) => void
     onClick: (event: React.MouseEvent<HTMLElement>) => void
     onChange: (event: React.ChangeEvent<HTMLElement>) => void
