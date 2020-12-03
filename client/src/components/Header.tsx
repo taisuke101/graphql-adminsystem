@@ -12,7 +12,7 @@ const Header: FC = () => {
     const path = pathname === '/' ? 'home' : pathname.substr(1);
     const [ activeItem, setActiveItem ] = useState(path);
     // TODO イベントの型の指定
-    const handleItemClick: any= (e: Event, { name }: HeaderType) => setActiveItem(name);
+    const handleItemClick: any = (e: Event, { name }: HeaderType) => setActiveItem(name);
 
     return (
         <Menu pointing secondary size='massive' color='teal'>
