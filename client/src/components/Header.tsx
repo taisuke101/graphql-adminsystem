@@ -9,7 +9,7 @@ import { Menu } from 'semantic-ui-react';
 const Header: FC = () => {
 
     const pathname = window.location.pathname;
-    const path = pathname === '/' ? 'home' : pathname.substr(1);
+    const path = pathname === '/home' ? 'home' : pathname.substr(1);
     const [ activeItem, setActiveItem ] = useState(path);
     // TODO イベントの型の指定
     const handleItemClick: any = (e: Event, { name }: HeaderType) => setActiveItem(name);
@@ -21,7 +21,7 @@ const Header: FC = () => {
                 active={activeItem === 'Home'}
                 onClick={handleItemClick}
                 as={Link}
-                to='/'
+                to='/home'
             />
             <Menu.Menu position='right'>
                 <Menu.Item 

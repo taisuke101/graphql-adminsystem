@@ -12,6 +12,7 @@
       "ts-node": "^9.0.0"
    },
    "dependencies": {
+      "apollo-link-context": "^1.0.20",
       "bcryptjs": "^2.4.3",
       "class-validator": "^0.12.2",
       "express": "^4.17.1",
