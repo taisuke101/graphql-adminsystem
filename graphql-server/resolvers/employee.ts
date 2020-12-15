@@ -1,13 +1,5 @@
 
 export const employeeResolvers = {
-    Query: {
-        getEmployees: async(_, __, { dataSources }: any) => {
-            return await dataSources.EmployeeAPI.getEmployees();
-        },
-        getEmployee: async(_, { employeeCode }: any, { dataSources }: any) => {
-            return await dataSources.EmployeeAPI.getEmployee(employeeCode);
-        },
-    },
     Mutation: {
         createEmployee: async(_,
             {

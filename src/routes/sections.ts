@@ -2,8 +2,6 @@ import express from 'express';
 
 import { 
     createSection,
-    getSections,
-    getSection,
     updateSection,
     deleteSection
 } from '../controllers/sections';
@@ -11,10 +9,6 @@ import {
 const router = express.Router();
 
 router.post('/sections/:uuid', createSection);
-
-router.get('/sections', getSections);
-
-router.get('/sections', getSection);
 
 router.put('/sections/:sectionCode', updateSection);
 

@@ -1,13 +1,5 @@
 
 export const sectionResolvers = {
-    Query: {
-        getSections: async(_, __, { dataSources }: any) => {
-            return await dataSources.SectionAPI.getSections();
-        },
-        getSection: async(_, { uuid }: any, { dataSources }: any) => {
-            return await dataSources.SectionAPI.getSection(uuid)
-        }
-    },
     Mutation: {
         createSection: async(
             _, 

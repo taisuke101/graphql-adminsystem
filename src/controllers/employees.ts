@@ -43,16 +43,6 @@ export const createEmployee = async(req: Request, res: Response) => {
         return res.status(500).json({ error: 'エラーが発生しました！'})
     }
 }
-// get employee app.get('/employees')
-export const getEmployees = async(_: Request, res: Response) => {
-    try {
-        const employee = await Employee.find({relations: ['user']})
-        return res.status(201).json(employee);
-    } catch(err) {
-        console.log(err);
-        return res.status(500).json({ error: 'エラーが発生しました！'})
-    }
-}
 
 //update employee app.put('/employees/:uuid')
 export const updateEmployee = async(req: Request, res: Response) => {
@@ -104,17 +94,4 @@ export const deleteEmployee = async(req: Request, res: Response) => {
         console.log(err);
         return res.status(500).json({ error: 'エラーが発生しました！'})
     } 
-}
-
-// find employee app.get('/employees/:employeeCode)
-export const getEmployee = async (req: Request, res: Response) => {
-    const employeeCode = req.params.employeeCode;
-
-    try {
-        const employee = await Employee.findOneOrFail({ employeeCode }, {relations: ['user']});
-        return res.json(employee);
-    } catch(err) {
-        console.log(err);
-        return res.status(404).json({ error: 'ユーザーが見つかりません！'})
-    }
 }

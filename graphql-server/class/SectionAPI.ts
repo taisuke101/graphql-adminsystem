@@ -6,20 +6,6 @@ export class SectionAPI extends RESTDataSource {
         this.baseURL = 'http://localhost:5000';
     }
 
-    // willSendRequest(request: RequestOptions) {
-    //     request.params.set('uuid', this.context.req.params.uuid);
-    // }
-
-    async getSections() {
-        const data = await this.get('/sections');
-        return data;
-    }
-
-    async getSection(uuid: string) {
-        const data = await this.get(`/sections/${uuid}`);
-        return data;
-    }
-
     async createSection( 
         userUuid: string,
         sectionCode: string,

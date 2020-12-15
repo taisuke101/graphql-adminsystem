@@ -5,16 +5,6 @@ export class EmployeeAPI extends RESTDataSource {
         super();
         this.baseURL = 'http://localhost:5000'
     }
-
-    async getEmployees() {
-        const data = await this.get('/employees');
-        return data;
-    }
-
-    async getEmployee(uuid: string) {
-        const data = await this.get(`/employees/${uuid}`);
-        return data;
-    }
     
     async createEmployee(
         userUuid: string,
