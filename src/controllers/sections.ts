@@ -30,16 +30,6 @@ export const createSection = async (req: Request, res: Response) => {
         return res.status(500).json({ error: 'エラーが発生しました！'})
     }
 }
-// get section app.get('/sections')
-export const getSections = async(req: Request, res: Response) => {
-    try {
-        const section = await Section.find({relations: ['user']})
-        return res.status(201).json(section);
-    } catch(err) {
-        console.log(err);
-        return res.status(500).json({ error: 'エラーが発生しました！'})
-    }
-}
 
 // update section app.put('/sections/:sectionCode')
 export const updateSection = async(req: Request, res: Response) => {
@@ -81,15 +71,3 @@ export const deleteSection = async(req: Request, res: Response) => {
     } 
 }
 
-//find section app.get('/sections/:uuid')
-export const getSection = async (req: Request, res: Response) => {
-    const uuid = req.params.uuid;
-
-    try {
-        const section = await Section.findOneOrFail({ uuid }, {relations: ['user']});
-        return res.json(section);
-    } catch(err) {
-        console.log(err);
-        return res.status(404).json({ error: 'ユーザーが見つかりません！'})
-    }
-}

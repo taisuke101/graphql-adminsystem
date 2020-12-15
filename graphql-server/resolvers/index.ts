@@ -4,9 +4,7 @@ import { sectionResolvers } from './section';
 
 export const resolvers = {
     Query: {
-        ...userResolves.Query,
-        ...employeeResolvers.Query,
-        ...sectionResolvers.Query
+        ...userResolves.Query
     },
     Mutation: {
         ...userResolves.Mutation,
