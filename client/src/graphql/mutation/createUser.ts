@@ -12,7 +12,6 @@ export const CREATE_USER_QUERY = gql`
                 confirmPassword: $confirmPassword
             ) {
                 userId
-                password
             }
         }
 `

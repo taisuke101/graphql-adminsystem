@@ -7,6 +7,7 @@ export const FETCH_USER_DETAIL_QUERY = gql`
             userId
             password
             employee {
+                uuid
                 employeeCode
                 lastName
                 firstName
@@ -17,6 +18,7 @@ export const FETCH_USER_DETAIL_QUERY = gql`
                 hireDate
             }
             section {
+                uuid
                 sectionCode
                 sectionName
             }

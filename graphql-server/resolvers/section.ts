@@ -20,21 +20,21 @@ export const sectionResolvers = {
         },
         updateSection: async(
             _,
-            { uuid, sectionCode, sectionName }: any,
+            { userSectionCode, sectionCode, sectionName }: any,
             { dataSources }: any
         ) => 
         {
             return await dataSources.SectionAPI.updateSection(
-                uuid, sectionCode, sectionName
+                userSectionCode, sectionCode, sectionName
             );
         },
         deleteSection: async(
             _,
-            { uuid }: any,
+            { sectionCode }: any,
             { dataSources }: any
         ) => 
         {
-            return await dataSources.SectionAPI.deleteSection(uuid);
+            return await dataSources.SectionAPI.deleteSection(sectionCode);
         }
     }
 }

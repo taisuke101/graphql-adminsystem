@@ -6,8 +6,8 @@ import { User } from "../entity/User";
 
 // create section app.post('/sections')
 export const createSection = async (req: Request, res: Response) => {
+    const userUuid = req.params.uuid;
     const {
-        userUuid,
         sectionCode,
         sectionName
     } = req.body;
@@ -41,16 +41,16 @@ export const getSections = async(req: Request, res: Response) => {
     }
 }
 
-// update section app.put('/sections/:uuid')
+// update section app.put('/sections/:sectionCode')
 export const updateSection = async(req: Request, res: Response) => {
-    const uuid = req.params.uuid;
+    const userSectionCode = req.params.sectionCode;
     const { 
         sectionCode,
         sectionName
     } = req.body;
 
     try {
-        const section = await Section.findOneOrFail({ uuid })
+        const section = await Section.findOneOrFail({ sectionCode: userSectionCode })
 
         section.sectionCode = sectionCode || section.sectionCode;
         section.sectionName = sectionName || section.sectionName;
@@ -66,12 +66,12 @@ export const updateSection = async(req: Request, res: Response) => {
     }
 }
 
-//delete section app.delete('/sections/:uuid')
+//delete section app.delete('/sections/:sectionCode')
 export const deleteSection = async(req: Request, res: Response) => {
-    const uuid = req.params.uuid;
+    const sectionCode = req.params.sectionCode;
 
     try {
-        const section = await Section.findOneOrFail({ uuid });
+        const section = await Section.findOneOrFail({ sectionCode });
         await section.remove();
 
         return res.status(201).json(section)

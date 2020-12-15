@@ -11,11 +11,12 @@ import { onError } from '@apollo/client/link/error'
 
 import App from './App';
 
+
 const httpLink = new HttpLink({
     uri: 'http://localhost:4000'
-})
+});
 
-const errorLink = onError(({ graphQLErrors, networkError }) => {
+const errorLink: any = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path }) =>
             console.log(
@@ -34,12 +35,15 @@ const authLink: any = setContext(() => {
     }
 })
 
-//const link = ApolloLink.from([errorLink, httpLink])
+const authHttp: any = authLink.concat(httpLink)
+
+const link = ApolloLink.from([errorLink, authHttp])
 
 const client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link,
     cache: new InMemoryCache()
 })
+
 
 export default (
     <ApolloProvider client={client}>

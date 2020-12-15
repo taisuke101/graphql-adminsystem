@@ -17,15 +17,15 @@ const Login = (props: any) => {
 
     const [ loginUser, { loading }] = useMutation(LOGIN_USER, {
         update(_, { data: {loginUser: userData}}) {
-            //console.log(userData.token);
-            context.login(userData)
+            context.login(userData);
+            values.body = ''
+            props.history.push('/home');
         },
         variables: values
     })
 
     function loginUserCallback() {
         loginUser();
-        props.history.push('/home')
     }
     
 

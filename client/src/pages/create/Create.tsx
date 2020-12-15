@@ -1,9 +1,9 @@
 import React  from 'react';
 import { useMutation } from '@apollo/client';
 
-import { useForm } from '../util/hooks';
-import { CREATE_USER_QUERY } from '../graphql/mutation/createUser';
-import { FETCH_USER_QUERY } from '../graphql/query/fetchUser';
+import { useForm } from '../../util/hooks';
+import { CREATE_USER_QUERY } from '../../graphql/mutation/createUser';
+import { FETCH_USER_QUERY } from '../../graphql/query/fetchUser';
 
 import { Button, Grid, Form } from 'semantic-ui-react'
 
@@ -73,7 +73,7 @@ function Create(props: { history: string[]; }) {
                             onChange={onChange}
                         />
                         <Button type='submit' color='teal'>
-                            作成
+                            登録
                         </Button>
                     </Form>
             </Grid.Row>

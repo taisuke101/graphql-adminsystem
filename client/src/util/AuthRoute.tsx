@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event';
 import React, { useContext } from 'react'
 import { Route, Redirect } from 'react-router-dom';
 
@@ -16,6 +15,7 @@ function AuthRoute({ component: Component, path, ...rest}: Props) {
 
     return (
         <Route 
+            exact
             path={path}
             render={props =>
                 user

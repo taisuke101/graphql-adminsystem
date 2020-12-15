@@ -59,7 +59,7 @@ const typeDefs = gql`
         getUsers: [User]!
         getUser(uuid: String!): User! 
         getEmployees: [Employee]
-        getEmployee(uuid: String!): Employee!
+        getEmployee(employeeCode: String!): Employee!
         getSections: [Section]!
         getSection(uuid: String!): Section!
     }
@@ -69,12 +69,32 @@ const typeDefs = gql`
         createUser(userId: String!, password: String!, confirmPassword: String!): User!
         updateUser(uuid: String!, userId: String!, password: String!): User!
         deleteUser(uuid: String!): User!
-        createEmployee(employeeInput: EmployeeInput): Employee!
-        updateEmployee(employeeInput: EmployeeInput): Employee!
-        deleteEmployee(uuid: String!): Employee!
-        createSection(userUuid: String!, sectionCode: String!, sectionName: String!): Section!
-        updateSection(uuid: String!, sectionCode: String!, sectionName: String!): Section!
-        deleteSection(uuid: String!): Section!
+        createEmployee(
+            userUuid: String!
+            employeeCode: String!
+            lastName: String!
+            firstName: String!
+            lastKanaName: String!
+            firstKanaName: String!
+            gender: String
+            birthDay: String
+            hireDate: String
+        ): Employee!
+        updateEmployee(
+            userEmployeeCode: String!
+            employeeCode: String
+            lastName: String
+            firstName: String
+            firstKanaName: String
+            lastKanaName: String
+            gender: String
+            birthDay: String
+            hireDate: String
+        ): Employee!
+        deleteEmployee(employeeCode: String!): Employee!
+        createSection(userUuid: String, sectionCode: String, sectionName: String): Section!
+        updateSection(userSectionCode: String!, sectionCode: String, sectionName: String): Section!
+        deleteSection(sectionCode: String!): Section!
     }
 `
 

@@ -6,6 +6,7 @@ import { Employee } from '../entity/Employee';
 
 //create employee app.post('/employees')
 export const createEmployee = async(req: Request, res: Response) => {
+    //const userUuid = req.params.userUuid;
     const {
         userUuid,
         employeeCode,
@@ -55,7 +56,7 @@ export const getEmployees = async(_: Request, res: Response) => {
 
 //update employee app.put('/employees/:uuid')
 export const updateEmployee = async(req: Request, res: Response) => {
-    const uuid = req.params.uuid;
+    const userEmployeeCode = req.params.employeeCode;
     const { 
         employeeCode,
         lastName,
@@ -68,7 +69,7 @@ export const updateEmployee = async(req: Request, res: Response) => {
     } = req.body;
 
     try {
-        const employee = await Employee.findOneOrFail({ uuid })
+        const employee = await Employee.findOneOrFail({ employeeCode: userEmployeeCode })
 
         employee.employeeCode = employeeCode || employee.employeeCode,
         employee.lastName = lastName || employee.lastName,
@@ -90,12 +91,12 @@ export const updateEmployee = async(req: Request, res: Response) => {
     }
 }
 
-// delete employee app.delete('/employees/:uuid')
+// delete employee app.delete('/employees/:employeeCode')
 export const deleteEmployee = async(req: Request, res: Response) => {
-    const uuid = req.params.uuid;
+    const employeeCode = req.params.employeeCode;
 
     try {
-        const employee = await Employee.findOneOrFail({ uuid });
+        const employee = await Employee.findOneOrFail({ employeeCode });
         await employee.remove();
 
         return res.status(201).json(employee);
@@ -105,12 +106,12 @@ export const deleteEmployee = async(req: Request, res: Response) => {
     } 
 }
 
-// find employee app.get('/employees/:uuid')
+// find employee app.get('/employees/:employeeCode)
 export const getEmployee = async (req: Request, res: Response) => {
-    const uuid = req.params.uuid;
+    const employeeCode = req.params.employeeCode;
 
     try {
-        const employee = await Employee.findOneOrFail({ uuid }, {relations: ['user']});
+        const employee = await Employee.findOneOrFail({ employeeCode }, {relations: ['user']});
         return res.json(employee);
     } catch(err) {
         console.log(err);

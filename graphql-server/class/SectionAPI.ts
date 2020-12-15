@@ -1,10 +1,14 @@
-import { RESTDataSource } from 'apollo-datasource-rest'
+import { RESTDataSource, RequestOptions } from 'apollo-datasource-rest'
 
 export class SectionAPI extends RESTDataSource {
     constructor() {
         super();
         this.baseURL = 'http://localhost:5000';
     }
+
+    // willSendRequest(request: RequestOptions) {
+    //     request.params.set('uuid', this.context.req.params.uuid);
+    // }
 
     async getSections() {
         const data = await this.get('/sections');
@@ -21,8 +25,8 @@ export class SectionAPI extends RESTDataSource {
         sectionCode: string,
         sectionName: string
         ) {
-        const data = await this.post('/sections', 
-        {userUuid, sectionCode, sectionName});
+        const data = await this.post(`/sections/${userUuid}`, 
+        {sectionCode, sectionName});
         return data;
     }
 

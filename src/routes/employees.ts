@@ -14,10 +14,10 @@ router.post('/employees', createEmployee);
 
 router.get('/employees', getEmployees);
 
-router.get('/employees/:uuid', getEmployee);
+router.get('/employees/:employeeCode', getEmployee);
 
-router.put('/employees/:uuid', updateEmployee);
+router.put('/employees/:employeeCode', updateEmployee);
 
-router.delete('/employees/:uuid', deleteEmployee);
+router.delete('/employees/:employeeCode', deleteEmployee);
 
 export default router;

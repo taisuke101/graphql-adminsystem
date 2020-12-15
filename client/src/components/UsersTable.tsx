@@ -20,7 +20,7 @@ const UsersTable: FC<{
                     <Table.Cell>{firstKanaName}</Table.Cell>
                     <Table.Cell
                             as={Link} 
-                            to={`/users/${uuid}`}
+                            to={`/detail/${uuid}`}
                     >詳細</Table.Cell>
                 </Table.Row>
             </Table.Body>
