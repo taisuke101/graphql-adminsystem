@@ -4,24 +4,22 @@ export const employeeResolvers = {
         getEmployees: async(_, __, { dataSources }: any) => {
             return await dataSources.EmployeeAPI.getEmployees();
         },
-        getEmployee: async(_, { uuid }: any, { dataSources }: any) => {
-            return await dataSources.EmployeeAPI.getEmployee(uuid);
+        getEmployee: async(_, { employeeCode }: any, { dataSources }: any) => {
+            return await dataSources.EmployeeAPI.getEmployee(employeeCode);
         },
     },
     Mutation: {
         createEmployee: async(_,
             {
-                employeeInput: {
-                    userUuid,
-                    employeeCode,
-                    lastName,
-                    firstName,
-                    lastKanaName,
-                    firstKanaName,
-                    gender,
-                    birthDay,
-                    hireDate
-                }
+                userUuid,
+                employeeCode,
+                lastName,
+                firstName,
+                lastKanaName,
+                firstKanaName,
+                gender,
+                birthDay,
+                hireDate
             }: any,
             { dataSources }: any) =>
         {
@@ -39,22 +37,20 @@ export const employeeResolvers = {
         },
         updateEmployee: async(_,
             {
-                employeeInput: {
-                    uuid,
-                    employeeCode,
-                    lastName,
-                    firstName,
-                    lastKanaName,
-                    firstKanaName,
-                    gender,
-                    birthDay,
-                    hireDate
-                }
+                userEmployeeCode,
+                employeeCode,
+                lastName,
+                firstName,
+                lastKanaName,
+                firstKanaName,
+                gender,
+                birthDay,
+                hireDate
             }: any, 
             {dataSources}: any) => 
         {
             return await dataSources.EmployeeAPI.updateEmployee(
-                uuid,
+                userEmployeeCode,
                 employeeCode,
                 lastName,
                 firstName,
@@ -65,8 +61,8 @@ export const employeeResolvers = {
                 hireDate
             )
         },
-        deleteEmployee: async (_, { uuid }: any, { dataSources }: any) => {
-            return await dataSources.EmployeeAPI.deleteEmployee(uuid);
+        deleteEmployee: async (_, { employeeCode }: any, { dataSources }: any) => {
+            return await dataSources.EmployeeAPI.deleteEmployee(employeeCode);
         }
     }
 }

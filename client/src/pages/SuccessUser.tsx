@@ -6,8 +6,9 @@ const Success = () => {
         <>
             <SuccessCard 
                 successName='ユーザー情報'
+                whatToDo='登録'
                 backPage='/users'
-                ContinuePage='/register'
+                continuePage='/register'
             />
         </>
     )

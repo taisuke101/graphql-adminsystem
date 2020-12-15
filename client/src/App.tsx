@@ -5,7 +5,7 @@ import Users from './pages/Users';
 import Create from './pages/create/Create';
 import UserDetail from './pages/UserDetail';
 import SuccessUser from './pages/SuccessUser';
-import UpdateUser from './pages/UpdateUser';
+import UpdateEmployee from './pages/UpdateEmployee';
 import UpdateSection from './pages/UpdateSection';
 import CreateEmployee from './pages/create/CreateEmployee';
 import CreateSection from './pages/create/CreateSection';
@@ -29,9 +29,9 @@ function App() {
                 <AuthRoute  path='/home' component={Home} />
                 <AuthRoute  path='/users' component={Users} />
                 <AuthRoute  path='/register' component={Create} />
-                <AuthRoute  path='/users/:uuid' component={UserDetail} />
+                <AuthRoute  path='/detail/:uuid' component={UserDetail} />
                 <AuthRoute  path='/success/user' component={SuccessUser} />
-                <AuthRoute  path='/update/users/:uuid' component={UpdateUser} />
+                <AuthRoute  path='/update/employees/:uuid' component={UpdateEmployee} />
                 <AuthRoute  path='/update/sections/:uuid' component={UpdateSection} />
                 <AuthRoute  path='/create/employees/:uuid' component={CreateEmployee} />
                 <AuthRoute  path='/create/sections/:uuid' component={CreateSection} />

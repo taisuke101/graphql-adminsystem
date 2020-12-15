@@ -5,14 +5,15 @@ import { Button, Grid } from 'semantic-ui-react'
 type Props = {
     successName: string;
     backPage: string;
-    ContinuePage: string;
+    continuePage: string;
+    whatToDo: string;
 }
 
-const SuccessCard: FC<Props> = ({ successName, backPage, ContinuePage}) => {
+const SuccessCard: FC<Props> = ({ successName, backPage, continuePage, whatToDo}) => {
     return (
         <Grid className='success-container'>
             <Grid.Row className='success-content'>
-                <h1>{successName}を登録しました！</h1>
+                <h1>{successName}を{whatToDo}しました！</h1>
             </Grid.Row>
             <Grid.Row>
                 <Button
@@ -23,8 +24,8 @@ const SuccessCard: FC<Props> = ({ successName, backPage, ContinuePage}) => {
                 <Button
                     color='teal'
                     as={Link}
-                    to={ContinuePage}
-                >続けて作成する</Button>
+                    to={continuePage}
+                >続けて登録する</Button>
             </Grid.Row>
         </Grid>
     )

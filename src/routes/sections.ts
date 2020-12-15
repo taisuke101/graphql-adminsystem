@@ -10,14 +10,14 @@ import {
 
 const router = express.Router();
 
-router.post('/sections', createSection);
+router.post('/sections/:uuid', createSection);
 
 router.get('/sections', getSections);
 
 router.get('/sections', getSection);
 
-router.put('/sections', updateSection);
+router.put('/sections/:sectionCode', updateSection);
 
-router.delete('/sections', deleteSection);
+router.delete('/sections/:sectionCode', deleteSection);
 
 export default router;
