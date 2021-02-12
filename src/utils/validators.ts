@@ -1,6 +1,6 @@
 // TODO バリデータの再確認
 
-const validateRegisterInput = (
+export const validateUserInput = (
     userId: string,
     password: string,
     confirmPassword: string
@@ -19,12 +19,11 @@ const validateRegisterInput = (
         errors,
         valid: Object.keys(errors).length < 1
     };
-}
+};
 
-const validateLoginInput = (
+export const validateLoginInput = (
     userId: string, 
     password: string, 
-    confirmPassword: string
 ) => {
     const errors: any = {};
     if(userId.trim() === '') {
@@ -38,6 +37,5 @@ const validateLoginInput = (
         errors,
         valid: Object.keys(errors).length < 1
     };
-}
+};
 
-export { validateLoginInput, validateRegisterInput as default };

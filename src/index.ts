@@ -5,8 +5,9 @@ import { buildSchema } from 'type-graphql';
 import { ApolloServer } from 'apollo-server-express';
 
 import { HelloResolver } from './resolvers/HelloResolver';
+import { UserResolver } from './resolvers/UserResolver';
 
-// TODO apollo-server-express への変更
+// apollo-server-express への変更
 // TODO EntityにTypegraphqlのスキーマを追加
 // TODO EntityのBeforeInsertにパスワードのハッシュ化を追加
 // TODO EntityのクラスバリデータをTypegraphqlのインプット部分に移行
@@ -15,7 +16,10 @@ import { HelloResolver } from './resolvers/HelloResolver';
 async function main() {
     await createConnection();
     const schema = await buildSchema({
-        resolvers: [HelloResolver]
+        resolvers: [
+            HelloResolver,
+            UserResolver
+        ]
     });
     const server = new ApolloServer({ 
         schema,
