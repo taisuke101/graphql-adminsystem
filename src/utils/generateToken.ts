@@ -1,9 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { User } from '../entity/User';
 
-//TODO Typegraphqlのミドルウェア化
-
-const generateToken = (user: User) => {
+export const generateToken = (user: User) => {
     return jwt.sign({
         id: user.uuid,
         userId: user.userId,
@@ -12,4 +10,3 @@ const generateToken = (user: User) => {
     {expiresIn: '24h'});
 }
 
-export default generateToken;

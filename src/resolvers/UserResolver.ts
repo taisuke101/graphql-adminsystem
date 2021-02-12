@@ -1,21 +1,26 @@
 import { UserInputError } from "apollo-server-express";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware} from "type-graphql";
 import { User } from "../entity/User";
 import bcrypt from 'bcrypt'; 
 
 import { createUserInput, updateUserInput } from "../inputs/UserInput";
 import { validateUserInput } from "../utils/validators";
+import { isAuth } from "../middleware/isAuth";
+import { isUser } from "../middleware/isUser";
+import { Response } from "express";
 
 @Resolver()
 export class UserResolver {
     @Query(() => [User])
     async getUsers() {
-        const user = await User.find()
+        const user = await User.find();
         return user;
     }
+    @UseMiddleware(isAuth, isUser)
     @Query(() => User)
-    async getUser(@Arg('userId') userId: string) {
+    async getUser(@Arg('userId') userId: string, @Ctx('res') res: Response) {
         try {
+            console.log(res.locals.user);
             const user = await User.findOne({ userId });
             if (!user)
                 throw new UserInputError('ユーザーが見つかりません！');
