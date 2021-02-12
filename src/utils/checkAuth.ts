@@ -1,15 +1,15 @@
-import express, { NextFunction, Request, Response } from 'express';
+
 import jwt from 'jsonwebtoken'
 
-import { SECRET_KEY } from '../config';
+// TODO Typegraphqlのミドルウェア化
 
-export const checkAuth = (context) => {
+export const checkAuth = (context: any) => {
     const authHeader = context.req.headers.authorization;
     if(authHeader) {
         const token = authHeader.split('Bearer ')[1];
         if(token) {
             try {
-                const user = jwt.verify(token, SECRET_KEY);
+                const user = jwt.verify(token, process.env.SECRET_KEY!);
                 return user;
             } catch(err) {
                 throw new Error('無効もしくは期限切れのトークンです！');

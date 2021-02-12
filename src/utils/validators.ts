@@ -1,3 +1,5 @@
+// TODO バリデータの再確認
+
 const validateRegisterInput = (
     userId: string,
     password: string,

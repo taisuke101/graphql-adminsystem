@@ -1,12 +1,12 @@
 {
-   "type": "mysql",
+   "type": "mariadb",
    "host": "localhost",
    "port": 3306,
-   "username": "root",
+   "username": "admin",
    "password": "3Mumyouken3",
    "database": "acrovision_admin",
    "synchronize": true,
-   "logging": true,
+   "logging": false,
    "entities": [
       "src/entity/**/*.ts"
    ],
