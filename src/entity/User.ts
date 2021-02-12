@@ -29,6 +29,9 @@ export class User extends Model {
     @Field(() => Section)
     @OneToMany(() => Section, section => section.user)
     section: Section;
+
+    @Field(() => String)
+    token: string;
     
     @BeforeInsert()
     async hashPassword() {
