@@ -1,13 +1,14 @@
 import jwt from 'jsonwebtoken';
+import { User } from '../entity/User';
 
-import { SECRET_KEY } from '../config';
+//TODO Typegraphqlのミドルウェア化
 
-const generateToken = (user) => {
+const generateToken = (user: User) => {
     return jwt.sign({
         id: user.uuid,
         userId: user.userId,
     },
-    SECRET_KEY, 
+    process.env.SECRET_KEY!, 
     {expiresIn: '24h'});
 }
 

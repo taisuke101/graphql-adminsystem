@@ -1,31 +1,32 @@
 import 'reflect-metadata';
 import { createConnection } from "typeorm";
 import express from 'express';
-//TODO fastifyの導入
-// import fastify, { FastifyInstance } from 'fastify';
-// import { Server, IncomingMessage, ServerResponse} from 'http';
+import { buildSchema } from 'type-graphql';
+import { ApolloServer } from 'apollo-server-express';
 
-// const server: FastifyInstance<
-//     Server,
-//     IncomingMessage,
-//     ServerResponse,
-//     any
-// > = fastify({ logger: true })
+import { HelloResolver } from './resolvers/HelloResolver';
 
-import user from './routes/users';
-import employee from './routes/employees';
-import section from './routes/sections';
-import login from './routes/login';
+// TODO apollo-server-express への変更
+// TODO EntityにTypegraphqlのスキーマを追加
+// TODO EntityのBeforeInsertにパスワードのハッシュ化を追加
+// TODO EntityのクラスバリデータをTypegraphqlのインプット部分に移行
+// TODO ControllerをGraphqlのリゾルバに変更
 
-const app = express();
-app.use(express.json());
-app.use(employee);
-app.use(user);
-app.use(section);
-app.use(login);
+async function main() {
+    await createConnection();
+    const schema = await buildSchema({
+        resolvers: [HelloResolver]
+    });
+    const server = new ApolloServer({ 
+        schema,
+        context: ({ req, res }: any) => ({ req, res }) 
+    });
+    const app = express();
+    server.applyMiddleware({app})
+    
+    app.listen({ port: process.env.PORT }, () => 
+        console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
+    )
+}
 
-createConnection()
-    .then(async () => {
-        app.listen(5000, () => console.log('server up at http://localhost:5000'))
-    })
-    .catch((error) => console.log(error))
+main();
