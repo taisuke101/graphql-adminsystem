@@ -1,36 +1,45 @@
 import { IsEnum, Length } from "class-validator";
+import { Field, ObjectType } from "type-graphql";
 import {Entity, Column, ManyToOne} from "typeorm";
 
 import Model from "./Model";
 
 import { User } from "./User";
 
+@ObjectType()
 @Entity('employees')
 export class Employee extends Model {
 
+    @Field(() => String!)
     @Column('char', { length: 5, unique: true })
     @Length(1, 5)
     employeeCode: string;
 
+    @Field(() => User)
     @ManyToOne(() => User, { onDelete: 'CASCADE' })
     user: User;
 
+    @Field(() => String!)
     @Column('varchar', { length: 16 })
     @Length(1, 16)
     lastName: string;
 
+    @Field(() => String!)
     @Column('varchar', { length: 16 })
     @Length(1, 16)
     firstName: string;
 
-    @Column('varchar', { length: 24 })
+    @Field(() => String)
+    @Column('varchar', { length: 24, nullable: true } )
     @Length(1, 24)
-    lastKanaName?: string;
+    lastKanaName: string;
 
-    @Column('varchar', { length: 24 })
+    @Field(() => String)
+    @Column('varchar', { length: 24, nullable: true })
     @Length(1, 24)
-    firstKanaName?: string;
+    firstKanaName: string;
 
+    @Field(() => String!)
     @Column({
         type: 'enum',
         enum: ['男', '女', '未設定'],
@@ -39,10 +48,12 @@ export class Employee extends Model {
     @IsEnum(['男', '女', '未設定', undefined])
     gender: string;
 
-    @Column()
-    birthDay?: Date;
+    @Field(() => Date)
+    @Column({ nullable: true })
+    birthDay: Date;
 
-    @Column()
-    hireDate?: Date;
+    @Field(() => Date)
+    @Column({ nullable: true })
+    hireDate: Date;
 
 }
