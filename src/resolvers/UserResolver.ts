@@ -13,7 +13,8 @@ import { Response } from "express";
 export class UserResolver {
     @Query(() => [User])
     async getUsers() {
-        const user = await User.find();
+        const user = await User.find({ relations: ['section']});
+        console.log(user);
         return user;
     }
     @UseMiddleware(isAuth, isUser)

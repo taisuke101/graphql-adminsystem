@@ -6,6 +6,7 @@ import { ApolloServer } from 'apollo-server-express';
 
 import { UserResolver } from './resolvers/UserResolver';
 import { AuthResolver } from './resolvers/AuthResolver';
+import { SectionResolver } from './resolvers/SectionResolver';
 
 // apollo-server-express への変更
 // EntityにTypegraphqlのスキーマを追加
@@ -18,7 +19,8 @@ async function main() {
     const schema = await buildSchema({
         resolvers: [
             UserResolver,
-            AuthResolver
+            SectionResolver,
+            AuthResolver,
         ]
     });
     const server = new ApolloServer({ 
@@ -26,6 +28,9 @@ async function main() {
         context: ({ req, res }: any) => ({ req, res }) 
     });
     const app = express();
+
+    app.use(express.json());
+
     server.applyMiddleware({app})
     
     app.listen({ port: process.env.PORT }, () => 
