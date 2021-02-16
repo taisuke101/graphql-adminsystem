@@ -1,6 +1,6 @@
 import { IsEnum, Length } from "class-validator";
 import { Field, ObjectType } from "type-graphql";
-import {Entity, Column, ManyToOne} from "typeorm";
+import {Entity, Column, ManyToOne, JoinColumn} from "typeorm";
 
 import Model from "./Model";
 
@@ -16,7 +16,8 @@ export class Employee extends Model {
     employeeCode: string;
 
     @Field(() => User)
-    @ManyToOne(() => User, { onDelete: 'CASCADE' })
+    @ManyToOne(() => User,user => user.employee, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'userId' })
     user: User;
 
     @Field(() => String!)

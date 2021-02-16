@@ -22,13 +22,13 @@ export class User extends Model {
     @Column('varchar')
     password: string;
 
-    @Field(() => Employee)
+    @Field(() => [Employee])
     @OneToMany(() => Employee, employee => employee.user)
-    employee: Employee;
+    employee: Employee[];
     
-    @Field(() => Section)
+    @Field(() => [Section])
     @OneToMany(() => Section, section => section.user)
-    section: Section;
+    section: Section[];
 
     @Field(() => String)
     token: string;
