@@ -7,12 +7,7 @@ import { ApolloServer } from 'apollo-server-express';
 import { UserResolver } from './resolvers/UserResolver';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { SectionResolver } from './resolvers/SectionResolver';
-
-// apollo-server-express への変更
-// EntityにTypegraphqlのスキーマを追加
-// EntityのBeforeInsertにパスワードのハッシュ化を追加
-// TODO EntityのクラスバリデータをTypegraphqlのインプット部分に移行
-// TODO ControllerをGraphqlのリゾルバに変更
+import { EmployeeResolver } from './resolvers/EmployeeResolver';
 
 async function main() {
     await createConnection();
@@ -20,6 +15,7 @@ async function main() {
         resolvers: [
             UserResolver,
             SectionResolver,
+            EmployeeResolver,
             AuthResolver,
         ]
     });

@@ -29,6 +29,7 @@ export class SectionResolver {
             throw err;
         }
     }
+    
     @UseMiddleware(isAuth)
     @Mutation(() => Section)
     async updateSection(@Arg('userId') userId: string, @Arg('data') data: updateSectionInput) {
@@ -47,6 +48,7 @@ export class SectionResolver {
             throw err;
         }
     }
+
     @UseMiddleware(isAuth)
     @Mutation(() => String)
     async deleteSection(@Arg('userId') userId: string) {
