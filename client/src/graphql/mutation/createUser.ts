@@ -7,9 +7,11 @@ export const CREATE_USER_QUERY = gql`
             $confirmPassword: String!
     ) {
             createUser(
-                userId: $userId,
-                password: $password,
-                confirmPassword: $confirmPassword
+                data: {
+                    userId: $userId,
+                    password: $password,
+                    confirmPassword: $confirmPassword
+                }
             ) {
                 userId
             }

@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 export const FETCH_USER_DETAIL_QUERY = gql`
-    query($uuid: String!){
-        getUser(uuid: $uuid) {
+    query($userId: String!){
+        getUser(userId: $userId) {
             uuid
             userId
             password

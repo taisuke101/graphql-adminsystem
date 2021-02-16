@@ -7,11 +7,10 @@ import { UserProps } from '../interfaces/User';
 
 
 const UsersTable: FC<{
-    uuid: UserProps,
     userId: UserProps,
     lastKanaName: EmployeeProps,
     firstKanaName: EmployeeProps,    
-}> = ({ uuid, userId, lastKanaName, firstKanaName }) => {
+}> = ({ userId, lastKanaName, firstKanaName }) => {
     return (
             <Table.Body>
                 <Table.Row>
@@ -20,7 +19,7 @@ const UsersTable: FC<{
                     <Table.Cell>{firstKanaName}</Table.Cell>
                     <Table.Cell
                             as={Link} 
-                            to={`/detail/${uuid}`}
+                            to={`/detail/${userId}`}
                     >詳細</Table.Cell>
                 </Table.Row>
             </Table.Body>
