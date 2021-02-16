@@ -1,28 +1,25 @@
 import { UserInputError } from "apollo-server-express";
-import { Arg, Ctx, Mutation, Query, Resolver, UseMiddleware} from "type-graphql";
+import { Arg, Mutation, Query, Resolver, UseMiddleware} from "type-graphql";
 import { User } from "../entity/User";
 import bcrypt from 'bcrypt'; 
 
 import { createUserInput, updateUserInput } from "../inputs/UserInput";
 import { validateUserInput } from "../utils/validators";
-import { isAuth } from "../middleware/isAuth";
-import { isUser } from "../middleware/isUser";
-import { Response } from "express";
 
 @Resolver()
 export class UserResolver {
     @Query(() => [User])
     async getUsers() {
-        const user = await User.find({ relations: ['section']});
+        const user = await User.find({ relations: ['section', 'employee']});
         console.log(user);
         return user;
     }
-    @UseMiddleware(isAuth, isUser)
+
+    @UseMiddleware()
     @Query(() => User)
-    async getUser(@Arg('userId') userId: string, @Ctx('res') res: Response) {
+    async getUser(@Arg('userId') userId: string) {
         try {
-            console.log(res.locals.user);
-            const user = await User.findOne({ userId });
+            const user = await User.findOne({ userId }, { relations: ['section', 'employee']});
             if (!user)
                 throw new UserInputError('ユーザーが見つかりません！');
             return user;
@@ -61,6 +58,7 @@ export class UserResolver {
             throw err;
         }
     }
+
     @Mutation(() => User)
     async updateUser(@Arg('userId') userId: string, @Arg('data') data: updateUserInput) {
         try {   
@@ -89,6 +87,7 @@ export class UserResolver {
             throw err;
         }
     }
+
     @Mutation(() => String)
     async deleteUser(@Arg('userId') userId: string) {
         try {

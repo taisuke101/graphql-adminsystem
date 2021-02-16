@@ -11,9 +11,9 @@ export class createSectionInput {
 
 @InputType()
 export class updateSectionInput {
-    @Field()
+    @Field({ nullable: true })
     sectionCode?: string;
 
-    @Field()
+    @Field({ nullable: true })
     sectionName?: string;
 }

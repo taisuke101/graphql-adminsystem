@@ -9,17 +9,17 @@ import { User } from "./User";
 @Entity('sections')
 export class Section extends Model {
 
-    @Field(() => String)
+    @Field(() => String!)
     @Column('char', { length: 4 })
     @Length(1, 4)
     sectionCode: string;
 
-    @Field(() => String)
+    @Field(() => String!)
     @Column('varchar', { length: 24 })
     @Length(1, 24)
     sectionName: string;
 
-    @Field(() => User)
+    @Field(() => User!)
     @ManyToOne(() => User, user => user.section, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'userId' })
     user: User;
