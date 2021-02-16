@@ -6,14 +6,14 @@ import {
     HttpLink, 
     ApolloLink
 } from '@apollo/client';
-import { setContext } from 'apollo-link-context';
+import { setContext } from '@apollo/client/link/context';
 import { onError } from '@apollo/client/link/error'
 
 import App from './App';
 
 
 const httpLink = new HttpLink({
-    uri: 'http://localhost:4000'
+    uri: 'http://localhost:4000/graphql'
 });
 
 const errorLink: any = onError(({ graphQLErrors, networkError }) => {

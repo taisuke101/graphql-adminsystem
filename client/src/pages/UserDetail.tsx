@@ -9,14 +9,14 @@ import AllUpdateButton from '../components/AllUpdateButton';
 import { FETCH_USER_DETAIL_QUERY } from '../graphql/query/fetchUserDetail';
 import { UserProps } from '../interfaces/User';
 
-type PageProps = {data: UserProps} & RouteComponentProps<{uuid: string}>
+type PageProps = {data: UserProps} & RouteComponentProps<{userId: string}>
 
 function UserDetailCard(props: PageProps) {
-    const uuid = props.match.params.uuid    
+    const userId = props.match.params.userId    
 
     const { loading, data } = useQuery(FETCH_USER_DETAIL_QUERY, {
         variables: {
-            uuid
+            userId
         }
     })
 
@@ -104,7 +104,7 @@ function UserDetailCard(props: PageProps) {
                                     ? (<AllCreateButton 
                                         info='ユーザー情報'
                                         createTo='employees'
-                                        uuid={uuid}
+                                        uuid={userId}
                                     />)
                                     : ''
                                 }
@@ -113,7 +113,7 @@ function UserDetailCard(props: PageProps) {
                                     ? (<AllUpdateButton 
                                         info='ユーザー情報'
                                         updateTo='employees'
-                                        uuid={uuid}
+                                        uuid={userId}
                                     />)
                                     : ''
                                 }
@@ -154,7 +154,7 @@ function UserDetailCard(props: PageProps) {
                 ? (<AllCreateButton 
                     info='拠点情報'
                     createTo='sections'
-                    uuid={uuid} 
+                    uuid={userId} 
                 />)
                 : ''
             }
@@ -163,7 +163,7 @@ function UserDetailCard(props: PageProps) {
                 ? (<AllUpdateButton 
                     info='拠点情報'
                     updateTo='sections'
-                    uuid={uuid}
+                    uuid={userId}
                 />)
                 : ''
             }
@@ -179,7 +179,7 @@ function UserDetailCard(props: PageProps) {
         </Card.Content>
     </Card>
                         <AllDeleteButton 
-                            uuid={uuid}
+                            uuid={userId}
                             info='全てのユーザー情報'
                             callback={deleteCallback}
                         />

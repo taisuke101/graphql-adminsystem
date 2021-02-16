@@ -1,5 +1,5 @@
 import { UserInputError } from "apollo-server-express";
-import { Arg, Query, Resolver } from "type-graphql";
+import { Arg, Mutation, Resolver } from "type-graphql";
 import bcrypt from 'bcrypt';
 
 import { User } from "../entity/User";
@@ -8,7 +8,7 @@ import { generateToken } from "../utils/generateToken";
 
 @Resolver()
 export class AuthResolver {
-    @Query(() => User)
+    @Mutation(() => User)
     async Login(@Arg('data') data: LoginInput) {
         try {
             const { userId, password } = data;

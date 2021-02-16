@@ -11,7 +11,6 @@ export class UserResolver {
     @Query(() => [User])
     async getUsers() {
         const user = await User.find({ relations: ['section', 'employee']});
-        console.log(user);
         return user;
     }
 

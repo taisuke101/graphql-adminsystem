@@ -9,7 +9,6 @@ import { Grid, Table } from 'semantic-ui-react';
 const Users: FC<{}> = () => {
     const { loading, data }: any = useQuery(FETCH_USER_QUERY)
 
-    console.log(data)
     
     return (
         <Grid columns={1} >
@@ -32,7 +31,6 @@ const Users: FC<{}> = () => {
                         data.getUsers && data.getUsers.map((user: any) => (
                                 <UsersTable
                                     key={user.uuid}
-                                    uuid={user.uuid}
                                     userId={user.userId}
                                     lastKanaName=
                                     {

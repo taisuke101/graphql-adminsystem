@@ -3,6 +3,7 @@ import { createConnection } from "typeorm";
 import express from 'express';
 import { buildSchema } from 'type-graphql';
 import { ApolloServer } from 'apollo-server-express';
+import cors from 'cors';
 
 import { UserResolver } from './resolvers/UserResolver';
 import { AuthResolver } from './resolvers/AuthResolver';
@@ -26,6 +27,11 @@ async function main() {
     const app = express();
 
     app.use(express.json());
+    app.use(cors({
+        credentials: true,
+        origin: 'http://localhost:3000'
+    }));
+
 
     server.applyMiddleware({app})
     

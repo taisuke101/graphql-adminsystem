@@ -29,7 +29,7 @@ function App() {
                 <AuthRoute  path='/home' component={Home} />
                 <AuthRoute  path='/users' component={Users} />
                 <AuthRoute  path='/register' component={Create} />
-                <AuthRoute  path='/detail/:uuid' component={UserDetail} />
+                <AuthRoute  path='/detail/:userId' component={UserDetail} />
                 <AuthRoute  path='/success/user' component={SuccessUser} />
                 <AuthRoute  path='/update/employees/:uuid' component={UpdateEmployee} />
                 <AuthRoute  path='/update/sections/:uuid' component={UpdateSection} />
