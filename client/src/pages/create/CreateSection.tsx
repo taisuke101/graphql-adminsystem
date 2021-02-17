@@ -3,15 +3,16 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Grid } from 'semantic-ui-react';
 import { CREATE_SECTION_MUTATION } from '../../graphql/mutation/createSection';
+import { FETCH_USER_DETAIL_QUERY } from '../../graphql/query/fetchUserDetail';
 import { useForm } from '../../util/hooks';
 
 type Props = {
 } &  {props: {history: string[];}} 
-& RouteComponentProps<{uuid: string}>
+& RouteComponentProps<{userId: string}>
 
 function CreateSection(props: Props) {
 
-    const uuid = props.match.params.uuid;
+    const userId = props.match.params.userId;
 
     const { values, onChange, onSubmit }: any = useForm(createSectionCallback, {
         sectionCode: '',
@@ -20,15 +21,34 @@ function CreateSection(props: Props) {
 
     const [createSection, { loading }] = useMutation(CREATE_SECTION_MUTATION, {
         variables: {
-            userUuid: uuid,
+            userId: userId,
             sectionCode: values.sectionCode,
             sectionName: values.sectionName
+        },
+        update(cache, result) {
+            const data = cache.readQuery({
+                query: FETCH_USER_DETAIL_QUERY,
+                variables: { userId }
+            });
+            cache.writeQuery({
+                query: FETCH_USER_DETAIL_QUERY,
+                variables: { userId },
+                data: {
+                    getUser: {
+                        data,
+                        section: {
+                            result
+                        }
+                    }
+                }
+            })
+            values.body = '';
         }
     })
 
     function createSectionCallback() {
         createSection();
-        props.history.push('/users');
+        props.history.push(`/detail/${userId}`);
     }
 
     return (

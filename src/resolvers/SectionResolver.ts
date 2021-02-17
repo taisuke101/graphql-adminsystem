@@ -22,6 +22,7 @@ export class SectionResolver {
             })
             
             const section = await newSection.save();
+            console.log(section);
             
             return section;
         } catch (err) {
@@ -34,7 +35,7 @@ export class SectionResolver {
     @Mutation(() => Section)
     async updateSection(@Arg('userId') userId: string, @Arg('data') data: updateSectionInput) {
         try {
-            const section = await Section.findOne(userId);
+            const section = await Section.findOne({ where: {user: userId}});
             if (!section)
                 throw new UserInputError('ユーザーが見つかりません！');
             
@@ -53,7 +54,7 @@ export class SectionResolver {
     @Mutation(() => String)
     async deleteSection(@Arg('userId') userId: string) {
         try {
-            const section = await Section.findOne(userId);
+            const section = await Section.findOne({ where: {user: userId}});
             if (!section)
                 throw new UserInputError('ユーザーが見つかりません！');
             
