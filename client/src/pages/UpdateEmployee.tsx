@@ -1,5 +1,5 @@
 import React from 'react'
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { RouteComponentProps } from 'react-router-dom';
 
 import { FETCH_USER_DETAIL_QUERY } from '../graphql/query/fetchUserDetail';
@@ -9,10 +9,10 @@ import { Button, Form, Grid } from 'semantic-ui-react';
 
 type Props = 
     {props: {history: string[];}}
-    & RouteComponentProps<{uuid: string}>
+    & RouteComponentProps<{userId: string}>
 
 function UpdateEmployee(props: Props) {
-    const uuid = props.match.params.uuid;
+    const userId = props.match.params.userId;
 
     const { values, onChange, onSubmit }: any = useForm(updateEmployeeCallback, {
         employeeCode: '',
@@ -25,18 +25,9 @@ function UpdateEmployee(props: Props) {
         hireDate: '',
     })
 
-    const { loading, data } = useQuery(FETCH_USER_DETAIL_QUERY, {
-        variables: {
-            uuid
-        }
-    })
-
-    const userEmployeeCode = data.getUser.employee[0].employeeCode;
-    
-    
     const [ updateEmployee ] = useMutation(UPDATE_EMPLOYEE_MUTATION, {
         variables: {
-            userEmployeeCode: userEmployeeCode,
+            userId: userId,
             employeeCode: values.employeeCode,
             lastName: values.lastName,
             firstName: values.firstName,
@@ -45,12 +36,25 @@ function UpdateEmployee(props: Props) {
             gender: values.gender,
             birthDay: values.birthDay,
             hireDate: values.hireDate,
+        },
+        update(cache, result) {
+            cache.writeQuery({
+                query: FETCH_USER_DETAIL_QUERY,
+                variables: { userId },
+                data: {
+                    getUser: {
+                        employee: {
+                            result
+                        }
+                    }
+                }
+            })
         }
     })
 
     function updateEmployeeCallback() {
         updateEmployee();
-        props.history.push(`/detail/${uuid}`);
+        props.history.push(`/detail/${userId}`);
     }
 
     return (
@@ -62,7 +66,6 @@ function UpdateEmployee(props: Props) {
             <Form
                 onSubmit={onSubmit}
                 noValidate
-                className={loading ? 'loading' : ''}
                 style={{ width: '80%'}}
             >
                 <Form.Input 

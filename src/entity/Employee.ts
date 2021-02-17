@@ -17,7 +17,7 @@ export class Employee extends Model {
 
     @Field(() => User)
     @ManyToOne(() => User,user => user.employee, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'userId' })
+    @JoinColumn({ name: 'userId', referencedColumnName: 'userId' })
     user: User;
 
     @Field(() => String!)
@@ -49,12 +49,12 @@ export class Employee extends Model {
     @IsEnum(['男', '女', '未設定', undefined])
     gender: string;
 
-    @Field(() => Date)
-    @Column({ nullable: true })
-    birthDay: Date;
+    @Field(() => String)
+    @Column({ nullable: true, default: '未設定' })
+    birthDay: string;
 
-    @Field(() => Date)
-    @Column({ nullable: true })
-    hireDate: Date;
+    @Field(() => String)
+    @Column({ nullable: true, default: '未設定' })
+    hireDate: string;
 
 }
