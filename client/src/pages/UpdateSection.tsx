@@ -1,54 +1,48 @@
-import { useQuery, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Grid } from 'semantic-ui-react';
 
 import { UPDATE_SECTION_MUTATION } from '../graphql/mutation/updateSection';
-import { FETCH_USER_QUERY } from '../graphql/query/fetchUser';
 import { FETCH_USER_DETAIL_QUERY } from '../graphql/query/fetchUserDetail';
 import { useForm } from '../util/hooks';
 
 type Props = 
     {props: {history: string[];}} 
-    & RouteComponentProps<{uuid: string}>
+    & RouteComponentProps<{userId: string}>
 
 function UpdateSection(props: Props) {
-    const uuid = props.match.params.uuid
+    const userId = props.match.params.userId;
 
     const { values, onChange, onSubmit }: any = useForm(updateSectionCallback, {
         sectionCode: '',
         sectionName: ''
     })
 
-    const { loading, data } = useQuery(FETCH_USER_DETAIL_QUERY, {
-        variables: {
-            uuid
-        }
-    })
-    
-    const userSectionCode = data.getUser.section[0].sectionCode;
-
     const [ updateSection ] = useMutation(UPDATE_SECTION_MUTATION, {
         variables: {
-            userSectionCode: userSectionCode,
+            userId: userId,
             sectionCode: values.sectionCode,
             sectionName: values.sectionName
         },
-        update(proxy) {
-            const data: any = proxy.readQuery({
-                query: FETCH_USER_QUERY
+        update(cache, result) {
+            cache.writeQuery({ 
+                query: FETCH_USER_DETAIL_QUERY, 
+                variables: { userId },
+                data: {
+                    getUser: {
+                        section: {
+                            result
+                        }
+                    }
+                }
             })
-            proxy.writeQuery({ query: FETCH_USER_QUERY, data: {
-                getUser: [
-                    data
-                ]
-            }})
             values.body=''
         }
     })
 
     function updateSectionCallback() {
         updateSection();
-        props.history.push(`/detail/${uuid}`);
+        props.history.push(`/detail/${userId}`);
     }
 
     return (
@@ -60,7 +54,6 @@ function UpdateSection(props: Props) {
                 <Form
                     onSubmit={onSubmit}
                     noValidate
-                    className={loading ? 'loading' : ''}
                 >
                     <Form.Input 
                         label='拠点コード'

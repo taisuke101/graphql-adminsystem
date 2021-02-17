@@ -21,6 +21,6 @@ export class Section extends Model {
 
     @Field(() => User!)
     @ManyToOne(() => User, user => user.section, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'userId' })
+    @JoinColumn({ name: 'userId', referencedColumnName: 'userId' })
     user: User;
 }
