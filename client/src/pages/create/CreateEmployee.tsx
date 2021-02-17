@@ -4,6 +4,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Grid } from 'semantic-ui-react';
 
 import { CREATE_EMPLOYEE_MUTATION } from '../../graphql/mutation/createEmployee';
+import { FETCH_USER_DETAIL_QUERY } from '../../graphql/query/fetchUserDetail';
 import { EmployeeProps } from '../../interfaces/Employee';
 import { useForm } from '../../util/hooks';
 
@@ -11,11 +12,11 @@ import { useForm } from '../../util/hooks';
 type Props = 
     EmployeeProps &
     {props: {history: string[];}} 
-    & RouteComponentProps<{uuid: string}>
+    & RouteComponentProps<{userId: string}>
 
 function CreateUser(props: Props) {
 
-    const uuid = props.match.params.uuid;
+    const userId = props.match.params.userId;
 
     const { values, onChange, onSubmit }: any = useForm(createEmployeeCallback, {
         employeeCode: '',
@@ -30,7 +31,7 @@ function CreateUser(props: Props) {
 
     const [ createEmployee, { loading }] = useMutation(CREATE_EMPLOYEE_MUTATION, {
         variables: {
-            userUuid: uuid,
+            userId: userId,
             employeeCode: values.employeeCode,
             lastName: values.lastName,
             firstName: values.firstName,
@@ -39,29 +40,31 @@ function CreateUser(props: Props) {
             gender: values.gender,
             birthDay: values.birthDay,
             hireDate: values.hireDate
+        },
+        update(cache, result) {
+            const data = cache.readQuery({
+                query: FETCH_USER_DETAIL_QUERY,
+                variables: { userId }
+            });
+            cache.writeQuery({
+                query: FETCH_USER_DETAIL_QUERY,
+                variables: { userId },
+                data: {
+                    getUser: {
+                        data,
+                        employee: {
+                            result
+                        }
+                    }
+                }
+            })
+            values.body = '';
         }
-        // update(proxy, result) {
-        //     const data: any = proxy.readQuery({
-        //         query: FETCH_USER_DETAIL_QUERY,
-        //         variables: 
-        //     })
-        //     proxy.writeQuery({
-        //         query: FETCH_USER_DETAIL_QUERY,
-        //         variables: userUuid,
-        //         data: {
-        //             getUser: [
-        //                 result.data.getUser,
-        //                 ...data.getUser
-        //             ]
-        //         }
-        //     })
-        //     values.body = ''
-        // }
     })
 
     function createEmployeeCallback() {
         createEmployee();
-        props.history.push('/users');
+        props.history.push(`/detail/${userId}`);
     }
 
     return (

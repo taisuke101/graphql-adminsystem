@@ -23,10 +23,10 @@ export class createEmployeeInput {
     gender: string;
 
     @Field({ nullable: true })
-    birthDay?: Date;
+    birthDay?: string;
 
     @Field({ nullable: true })
-    hireDate?: Date;
+    hireDate?: string;
 }
 
 @InputType()
@@ -51,8 +51,8 @@ export class updateEmployeeInput {
     gender?: string;
 
     @Field({ nullable: true })
-    birthDay?: Date;
+    birthDay?: string;
 
     @Field({ nullable: true })
-    hireDate?: Date;
+    hireDate?: string;
 }

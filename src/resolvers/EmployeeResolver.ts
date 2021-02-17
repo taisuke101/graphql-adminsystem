@@ -35,7 +35,7 @@ export class EmployeeResolver {
     @Mutation(() => Employee)
     async updateEmployee(@Arg('userId') userId: string, @Arg('data') data: updateEmployeeInput) {
         try {
-            const employee = await Employee.findOne(userId);
+            const employee = await Employee.findOne({ where: {user: userId}});
             if (!employee)
                 throw new UserInputError('ユーザーが見つかりません！');
             
@@ -54,7 +54,7 @@ export class EmployeeResolver {
     @Mutation(() => String)
     async deleteEmployee(@Arg('userId') userId: string) {
         try {
-            const employee = await Employee.findOne(userId);
+            const employee = await Employee.findOne({ where: {user: userId}});
             if (!employee)
                 throw new UserInputError('ユーザーが見つかりません！');
             
