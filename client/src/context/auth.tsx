@@ -5,6 +5,7 @@ const initialState = {
     user: null
 };
 
+//TODO 型付け
 const localStorageItem: any = localStorage.getItem('jwtToken')
 
 if (localStorage.getItem('jwtToken')) {

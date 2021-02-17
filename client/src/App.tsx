@@ -30,11 +30,11 @@ function App() {
                 <AuthRoute  path='/users' component={Users} />
                 <AuthRoute  path='/register' component={Create} />
                 <AuthRoute  path='/detail/:userId' component={UserDetail} />
+                <AuthRoute  path='/detail/:userId/employee/update' component={UpdateEmployee} />
+                <AuthRoute  path='/detail/:userId/section/update' component={UpdateSection} />
+                <AuthRoute  path='/detail/:userId/employee/create' component={CreateEmployee} />
+                <AuthRoute  path='/detail/:userId/section/create' component={CreateSection} />
                 <AuthRoute  path='/success/user' component={SuccessUser} />
-                <AuthRoute  path='/update/employees/:uuid' component={UpdateEmployee} />
-                <AuthRoute  path='/update/sections/:uuid' component={UpdateSection} />
-                <AuthRoute  path='/create/employees/:uuid' component={CreateEmployee} />
-                <AuthRoute  path='/create/sections/:uuid' component={CreateSection} />
               </Layout>
             </Container>
       </Router>

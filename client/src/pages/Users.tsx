@@ -7,7 +7,7 @@ import { Grid, Table } from 'semantic-ui-react';
 
 
 const Users: FC<{}> = () => {
-    const { loading, data }: any = useQuery(FETCH_USER_QUERY)
+    const { loading, data }　= useQuery(FETCH_USER_QUERY)
 
     
     return (

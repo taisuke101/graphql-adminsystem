@@ -18,14 +18,14 @@ function Create(props: { history: string[]; }) {
     const [createUser, { loading }] = useMutation(CREATE_USER_QUERY, {
         variables: values,
         update(proxy, result) {
-            const data: any = proxy.readQuery({
+            const data = proxy.readQuery({
                 query: FETCH_USER_QUERY
             })
             proxy.writeQuery({ query: FETCH_USER_QUERY, data: {
-                getUsers: [
-                    result.data.createUser,
-                    ...data.getUsers
-                ]
+                getUsers: {
+                    result,
+                    data
+                }
             }})
             values.body = ''
         }
