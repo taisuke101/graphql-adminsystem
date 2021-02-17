@@ -21,7 +21,7 @@ function UserDetailCard(props: PageProps) {
     })
 
     function deleteCallback() {
-        props.history.push('/users');
+        props.history.push(`/detail/${userId}`);
     }
     
     return (
@@ -103,8 +103,8 @@ function UserDetailCard(props: PageProps) {
                                     !data.getUser.employee[0]
                                     ? (<AllCreateButton 
                                         info='ユーザー情報'
-                                        createTo='employees'
-                                        uuid={userId}
+                                        createTo='employee'
+                                        userId={userId}
                                     />)
                                     : ''
                                 }
@@ -112,15 +112,16 @@ function UserDetailCard(props: PageProps) {
                                     data.getUser.employee[0]
                                     ? (<AllUpdateButton 
                                         info='ユーザー情報'
-                                        updateTo='employees'
-                                        uuid={userId}
+                                        updateTo='employee'
+                                        userId={userId}
                                     />)
                                     : ''
                                 }
                                 {
                                     data.getUser.employee[0]
                                     ? (<AllDeleteButton 
-                                        employeeCode={data.getUser.employee[0].employeeCode}
+                                        userId={userId}
+                                        employee={true}
                                         info='ユーザー情報'
                                         callback={deleteCallback}
                                     />)
@@ -153,8 +154,8 @@ function UserDetailCard(props: PageProps) {
                 !data.getUser.section[0]
                 ? (<AllCreateButton 
                     info='拠点情報'
-                    createTo='sections'
-                    uuid={userId} 
+                    createTo='section'
+                    userId={userId} 
                 />)
                 : ''
             }
@@ -162,15 +163,15 @@ function UserDetailCard(props: PageProps) {
                 data.getUser.section[0]
                 ? (<AllUpdateButton 
                     info='拠点情報'
-                    updateTo='sections'
-                    uuid={userId}
+                    updateTo='section'
+                    userId={userId}
                 />)
                 : ''
             }
             {
                 data.getUser.section[0]
                 ? (<AllDeleteButton 
-                    sectionCode={data.getUser.section[0].sectionCode}
+                    userId ={userId}
                     info='拠点情報'
                     callback={deleteCallback}
                 />)
@@ -179,7 +180,8 @@ function UserDetailCard(props: PageProps) {
         </Card.Content>
     </Card>
                         <AllDeleteButton 
-                            uuid={userId}
+                            userId={userId}
+                            user={true}
                             info='全てのユーザー情報'
                             callback={deleteCallback}
                         />

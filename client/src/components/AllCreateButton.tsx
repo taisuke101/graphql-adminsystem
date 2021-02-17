@@ -5,16 +5,16 @@ import { Button } from 'semantic-ui-react'
 type Props = {
     info: string;
     createTo: string;
-    uuid: string;
+    userId: string;
 }
 
-const AllCreateButton: FC<Props> = ({ info, createTo, uuid}) => {
+const AllCreateButton: FC<Props> = ({ info, createTo, userId}) => {
     return (
         <Button
             as={Link}
             color='teal'
             floated='right'
-            to={`/create/${createTo}/${uuid}`}
+            to={`/detail/${userId}/${createTo}/create`}
         >
             {info}を登録
         </Button>

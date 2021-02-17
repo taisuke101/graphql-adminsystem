@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import Header from '../components/Header'
 
 type Props = {
+    // TODO 型付け
     children: any;
 }
 

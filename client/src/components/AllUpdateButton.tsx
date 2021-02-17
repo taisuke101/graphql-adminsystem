@@ -5,17 +5,17 @@ import { Button } from 'semantic-ui-react';
 type Props = {
     info: string;
     updateTo: string;
-    uuid: string;
+    userId: string;
     }
 
-const AllUpdateButton: FC<Props> = ({ info, updateTo, uuid }) => {
+const AllUpdateButton: FC<Props> = ({ info, updateTo, userId }) => {
 
     return (
         <Button
             as={Link}
             color='blue'
             floated='right'
-            to={`/update/${updateTo}/${uuid}`}
+            to={`/detail/${userId}/${updateTo}/update`}
         >
             {info}を変更
         </Button>

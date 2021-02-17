@@ -16,7 +16,7 @@ const httpLink = new HttpLink({
     uri: 'http://localhost:4000/graphql'
 });
 
-const errorLink: any = onError(({ graphQLErrors, networkError }) => {
+const errorLink = onError(({ graphQLErrors, networkError }) => {
     if (graphQLErrors)
         graphQLErrors.map(({ message, locations, path }) =>
             console.log(
@@ -26,7 +26,7 @@ const errorLink: any = onError(({ graphQLErrors, networkError }) => {
     if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-const authLink: any = setContext(() => {
+const authLink = setContext(() => {
     const token = localStorage.getItem('jwtToken');
     return {
         headers: {
@@ -35,7 +35,7 @@ const authLink: any = setContext(() => {
     }
 })
 
-const authHttp: any = authLink.concat(httpLink)
+const authHttp = authLink.concat(httpLink)
 
 const link = ApolloLink.from([errorLink, authHttp])
 

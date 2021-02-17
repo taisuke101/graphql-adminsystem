@@ -2,7 +2,6 @@ import { FC, useState } from "react";
 import { Link } from 'react-router-dom';
 
 import { HeaderType }from '../interfaces/HeaderType'
-import { Event } from '../interfaces/Event';
 
 import { Menu } from 'semantic-ui-react';
 
@@ -12,7 +11,7 @@ const Header: FC = () => {
     const path = pathname === '/home' ? 'home' : pathname.substr(1);
     const [ activeItem, setActiveItem ] = useState(path);
     // TODO イベントの型の指定
-    const handleItemClick: any = (e: Event, { name }: HeaderType) => setActiveItem(name);
+    const handleItemClick: any = ( { name }: HeaderType) => setActiveItem(name);
 
     return (
         <Menu pointing secondary size='massive' color='teal'>
