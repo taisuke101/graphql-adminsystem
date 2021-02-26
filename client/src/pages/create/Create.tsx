@@ -9,6 +9,7 @@ import { Button, Grid, Form } from 'semantic-ui-react'
 
 function Create(props: { history: string[]; }) {
 
+    //TODO 型付け
     const { values, onChange, onSubmit }: any = useForm(createUserCallback, {
         userId: '',
         password: '',
@@ -33,7 +34,7 @@ function Create(props: { history: string[]; }) {
 
     function createUserCallback() {
         createUser();
-        props.history.push('/success/user');
+        props.history.push('/register/success');
     }
 
     return (

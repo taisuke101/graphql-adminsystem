@@ -7,9 +7,10 @@ import { LOGIN_USER } from '../graphql/mutation/loginUser';
 import { useForm } from '../util/hooks';
 
 
-const Login = (props: any) => {
+const Login = (props: { history: string[]; }) => {
     const context = useContext(AuthContext);
 
+    // TODO 型付け
     const { values, onChange, onSubmit}: any = useForm(loginUserCallback, {
         userId: '',
         password: ''

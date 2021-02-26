@@ -22,7 +22,6 @@ export class SectionResolver {
             })
             
             const section = await newSection.save();
-            console.log(section);
             
             return section;
         } catch (err) {

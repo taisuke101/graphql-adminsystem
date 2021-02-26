@@ -3,6 +3,7 @@ import { Route, Redirect } from 'react-router-dom';
 
 import { AuthContext } from '../context/auth'
 
+//TODO 型付け
 type Props = {
     Component?: any;
     component?: any;

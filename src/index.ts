@@ -20,6 +20,7 @@ async function main() {
             AuthResolver,
         ]
     });
+    //TODO 型付け
     const server = new ApolloServer({ 
         schema,
         context: ({ req, res }: any) => ({ req, res }) 

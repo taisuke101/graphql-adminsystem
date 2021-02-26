@@ -23,6 +23,10 @@ function UserDetailCard(props: PageProps) {
     function deleteCallback() {
         props.history.push(`/detail/${userId}`);
     }
+
+    function deleteUserCallback() {
+        props.history.push('/users')
+    }
     
     return (
         <Grid divided>
@@ -183,7 +187,7 @@ function UserDetailCard(props: PageProps) {
                             userId={userId}
                             user={true}
                             info='全てのユーザー情報'
-                            callback={deleteCallback}
+                            callback={deleteUserCallback}
                         />
             </Grid.Row>
         )

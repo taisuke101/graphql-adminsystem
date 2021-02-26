@@ -18,7 +18,7 @@ const Header: FC = () => {
             <Menu.Item 
                 name='Home'
                 active={activeItem === 'Home'}
-                onClick={handleItemClick}
+                onClick={() => handleItemClick}
                 as={Link}
                 to='/home'
             />
@@ -26,14 +26,14 @@ const Header: FC = () => {
                 <Menu.Item 
                     name='社員一覧'
                     active={activeItem === '社員一覧'}
-                    onClick={handleItemClick}
+                    onClick={() => handleItemClick}
                     as={Link}
                     to='/users'
                 />
                 <Menu.Item 
                     name='新規登録'
                     active={activeItem === '新規登録'}
-                    onClick={handleItemClick}
+                    onClick={() => handleItemClick}
                     as={Link}
                     to='/register'
                 />

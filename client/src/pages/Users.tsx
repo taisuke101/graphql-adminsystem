@@ -28,6 +28,7 @@ const Users: FC<{}> = () => {
                     loading
                     ? ( <h1>Loading ...</h1>)
                     : (
+                        //TODO 型付け
                         data.getUsers && data.getUsers.map((user: any) => (
                                 <UsersTable
                                     key={user.uuid}

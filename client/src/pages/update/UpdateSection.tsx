@@ -2,9 +2,9 @@ import { useMutation } from '@apollo/client';
 import { RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Grid } from 'semantic-ui-react';
 
-import { UPDATE_SECTION_MUTATION } from '../graphql/mutation/updateSection';
-import { FETCH_USER_DETAIL_QUERY } from '../graphql/query/fetchUserDetail';
-import { useForm } from '../util/hooks';
+import { UPDATE_SECTION_MUTATION } from '../../graphql/mutation/updateSection';
+import { FETCH_USER_DETAIL_QUERY } from '../../graphql/query/fetchUserDetail';
+import { useForm } from '../../util/hooks';
 
 type Props = 
     {props: {history: string[];}} 
@@ -13,6 +13,7 @@ type Props =
 function UpdateSection(props: Props) {
     const userId = props.match.params.userId;
 
+    //TODO 型付け
     const { values, onChange, onSubmit }: any = useForm(updateSectionCallback, {
         sectionCode: '',
         sectionName: ''

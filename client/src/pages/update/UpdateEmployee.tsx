@@ -2,9 +2,9 @@ import React from 'react'
 import { useMutation } from '@apollo/client';
 import { RouteComponentProps } from 'react-router-dom';
 
-import { FETCH_USER_DETAIL_QUERY } from '../graphql/query/fetchUserDetail';
-import { useForm } from '../util/hooks';
-import { UPDATE_EMPLOYEE_MUTATION } from '../graphql/mutation/updateEmployee';
+import { FETCH_USER_DETAIL_QUERY } from '../../graphql/query/fetchUserDetail';
+import { useForm } from '../../util/hooks';
+import { UPDATE_EMPLOYEE_MUTATION } from '../../graphql/mutation/updateEmployee';
 import { Button, Form, Grid } from 'semantic-ui-react';
 
 type Props = 
@@ -14,6 +14,7 @@ type Props =
 function UpdateEmployee(props: Props) {
     const userId = props.match.params.userId;
 
+    //TODO 型付け
     const { values, onChange, onSubmit }: any = useForm(updateEmployeeCallback, {
         employeeCode: '',
         lastName: '',

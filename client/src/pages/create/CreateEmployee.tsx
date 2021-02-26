@@ -18,6 +18,7 @@ function CreateUser(props: Props) {
 
     const userId = props.match.params.userId;
 
+    // TODO 型付け
     const { values, onChange, onSubmit }: any = useForm(createEmployeeCallback, {
         employeeCode: '',
         lastName: '',
