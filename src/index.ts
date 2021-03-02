@@ -2,13 +2,14 @@ import 'reflect-metadata';
 import { createConnection } from "typeorm";
 import express from 'express';
 import { buildSchema } from 'type-graphql';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, UserInputError } from 'apollo-server-express';
 import cors from 'cors';
 
 import { UserResolver } from './resolvers/UserResolver';
 import { AuthResolver } from './resolvers/AuthResolver';
 import { SectionResolver } from './resolvers/SectionResolver';
 import { EmployeeResolver } from './resolvers/EmployeeResolver';
+import { ExpressType } from './types/ExpressType';
 
 async function main() {
     await createConnection();
@@ -20,10 +21,17 @@ async function main() {
             AuthResolver,
         ]
     });
-    //TODO 型付け
     const server = new ApolloServer({ 
         schema,
-        context: ({ req, res }: any) => ({ req, res }) 
+        formatError: (err) => {
+            if (err.message.includes('Argument Validation Error')) {
+                return new UserInputError('bad user input', {
+                    detail: err.extensions?.exception.validationErrors
+                })
+            }
+            return err;
+        },
+        context: ({ req, res }: ExpressType) => ({ req, res }) 
     });
     const app = express();
 

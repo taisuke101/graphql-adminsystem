@@ -1,4 +1,4 @@
-import { IsEnum, Length } from "class-validator";
+import { Length } from "class-validator";
 import { Field, ObjectType } from "type-graphql";
 import {Entity, Column, ManyToOne, JoinColumn} from "typeorm";
 
@@ -44,9 +44,8 @@ export class Employee extends Model {
     @Column({
         type: 'enum',
         enum: ['男', '女', '未設定'],
-        default: '未設定'
+        default: '未設定',
     })
-    @IsEnum(['男', '女', '未設定', undefined])
     gender: string;
 
     @Field(() => String)
