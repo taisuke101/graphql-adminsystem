@@ -46,7 +46,7 @@ export const validateLoginInput = (
     const errors: any = {};
     
     if(userId.trim() === '') {
-        errors.username = 'ユーザーIDは必須項目です！'
+        errors.userId = 'ユーザーIDは必須項目です！'
     }
     if(password.trim() === '') {
         errors.password = 'パスワードは必須項目です!'

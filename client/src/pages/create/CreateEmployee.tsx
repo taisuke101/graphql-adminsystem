@@ -60,9 +60,7 @@ function CreateUser(props: Props) {
                 }
             })
         },
-        onError: (err) => {
-            setErrors(err.graphQLErrors[0].extensions?.errors);
-        },
+        onError: (err) => setErrors(err.graphQLErrors[0].extensions?.errors),
         onCompleted: () => props.history.push(`/detail/${userId}`)
     })
 

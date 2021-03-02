@@ -29,9 +29,7 @@ function Create(props: { history: string[]; }) {
                 }
             }})
         },
-        onError: (err) => {
-            setErrors(err.graphQLErrors[0].extensions?.errors);
-        },
+        onError: (err) => setErrors(err.graphQLErrors[0].extensions?.errors),
         onCompleted: () => props.history.push('/register/success'),
     })
 
