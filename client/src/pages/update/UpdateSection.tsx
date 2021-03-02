@@ -1,10 +1,10 @@
 import { useMutation } from '@apollo/client';
+import { FormEvent, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import { Button, Form, Grid } from 'semantic-ui-react';
 
 import { UPDATE_SECTION_MUTATION } from '../../graphql/mutation/updateSection';
 import { FETCH_USER_DETAIL_QUERY } from '../../graphql/query/fetchUserDetail';
-import { useForm } from '../../util/hooks';
 
 type Props = 
     {props: {history: string[];}} 
@@ -14,7 +14,7 @@ function UpdateSection(props: Props) {
     const userId = props.match.params.userId;
 
     //TODO 型付け
-    const { values, onChange, onSubmit }: any = useForm(updateSectionCallback, {
+    const [ variables, setVariables ] = useState({
         sectionCode: '',
         sectionName: ''
     })
@@ -22,8 +22,8 @@ function UpdateSection(props: Props) {
     const [ updateSection ] = useMutation(UPDATE_SECTION_MUTATION, {
         variables: {
             userId: userId,
-            sectionCode: values.sectionCode,
-            sectionName: values.sectionName
+            sectionCode: variables.sectionCode,
+            sectionName: variables.sectionName
         },
         update(cache, result) {
             cache.writeQuery({ 
@@ -37,13 +37,14 @@ function UpdateSection(props: Props) {
                     }
                 }
             })
-            values.body=''
-        }
+        },
+        onCompleted: () => props.history.push(`/detail/${userId}`)
     })
 
-    function updateSectionCallback() {
+    const submitUpdateSectionForm = (e: FormEvent) => {
+        e.preventDefault();
+
         updateSection();
-        props.history.push(`/detail/${userId}`);
     }
 
     return (
@@ -53,7 +54,7 @@ function UpdateSection(props: Props) {
             </Grid.Row>
             <Grid.Row>
                 <Form
-                    onSubmit={onSubmit}
+                    onSubmit={submitUpdateSectionForm}
                     noValidate
                 >
                     <Form.Input 
@@ -61,16 +62,16 @@ function UpdateSection(props: Props) {
                         placeholder='拠点コード'
                         name='sectionCode'
                         type='text'
-                        value={values.sectionCode}
-                        onChange={onChange}
+                        value={variables.sectionCode}
+                        onChange={(e) => setVariables({...variables, sectionCode: e.target.value})}
                     />
                     <Form.Input 
                         label='拠点名'
                         placeholder='拠点名'
                         name='sectionName'
                         type='text'
-                        value={values.sectionName}
-                        onChange={onChange}
+                        value={variables.sectionName}
+                        onChange={(e) => setVariables({...variables, sectionName: e.target.value})}
                     />
                     <Button type='submit' color='blue'>
                         変更

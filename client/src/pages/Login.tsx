@@ -1,38 +1,39 @@
 import { useMutation } from '@apollo/client';
-import React, { useContext } from 'react'
-import { Button, Form } from 'semantic-ui-react';
+import React, { FormEvent, useContext, useState } from 'react'
+import { Button, Form, Message } from 'semantic-ui-react';
 
 import { AuthContext } from '../context/auth'
 import { LOGIN_USER } from '../graphql/mutation/loginUser';
-import { useForm } from '../util/hooks';
-
 
 const Login = (props: { history: string[]; }) => {
     const context = useContext(AuthContext);
 
     // TODO 型付け
-    const { values, onChange, onSubmit}: any = useForm(loginUserCallback, {
+    const [ variables, setVariables ]= useState({
         userId: '',
         password: ''
     })
 
+    const [ errors, setErrors ] = useState<any>({});
+
     const [ loginUser, { loading }] = useMutation(LOGIN_USER, {
         update(_, { data: {Login: userData}}) {
             context.login(userData);
-            values.body = ''
-            props.history.push('/home');
         },
-        variables: values
+        onError: (err) => setErrors(err.graphQLErrors[0].extensions?.errors),
+        onCompleted: () =>  props.history.push('/home')
     })
 
-    function loginUserCallback() {
-        loginUser();
+    const submitLoginForm = (e: FormEvent) => {
+        e.preventDefault();
+
+        loginUser({ variables });
     }
-    
 
     return (
         <Form
-            onSubmit={onSubmit}
+            error
+            onSubmit={submitLoginForm}
             noValidate
             className={loading ? 'loading' : ''}
         >
@@ -42,16 +43,24 @@ const Login = (props: { history: string[]; }) => {
                 placeholder='ユーザーID'
                 name='userId'
                 type='text'
-                value={values.userId}
-                onChange={onChange}
+                value={variables.userId}
+                onChange={(e) => setVariables({...variables, userId: e.target.value})}
+            />
+            <Message
+                error
+                content={errors.userId}
             />
             <Form.Input 
                 label='パスワード'
                 placeholder='パスワード'
                 name='password'
                 type='password'
-                value={values.password}
-                onChange={onChange}
+                value={variables.password}
+                onChange={(e) => setVariables({...variables, password: e.target.value})}
+            />
+            <Message
+                error
+                content={errors.password}
             />
             <Button type='submit' primary>
                 ログイン
