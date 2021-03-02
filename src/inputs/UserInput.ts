@@ -1,14 +1,13 @@
-import { Length } from "class-validator";
 import { Field, InputType } from "type-graphql";
 
 @InputType()
 export class createUserInput {
     @Field()
-    @Length(1, 24, { message: 'ユーザーIDは1~24文字以内で設定してください！'})
+    //TODO 1~24文字のバリデーション設定
     userId: string;
 
     @Field()
-    @Length(1, 20, { message: 'パスワードは1~20文字以内で設定してください！'})
+    //TODO 1~24文字のバリデーション設定
     password: string;
 
     @Field()
@@ -18,11 +17,11 @@ export class createUserInput {
 @InputType()
 export  class updateUserInput {
     @Field({ nullable: true })
-    @Length(1, 24, { message: 'ユーザーIDは1~24文字以内で設定してください！'})
+     //TODO 1~24文字のバリデーション設定
     userId?: string;
 
     @Field({ nullable: true })
-    @Length(1, 20, { message: 'パスワードは1~20文字以内で設定してください！'})
+     //TODO 1~20文字のバリデーション設定
     password?: string;
 
     @Field({ nullable: true })

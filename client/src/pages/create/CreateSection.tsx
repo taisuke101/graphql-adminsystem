@@ -1,10 +1,9 @@
 import { useMutation } from '@apollo/client';
-import React from 'react'
+import React, { FormEvent, useState } from 'react'
 import { RouteComponentProps } from 'react-router-dom';
-import { Button, Form, Grid } from 'semantic-ui-react';
+import { Button, Form, Grid, Message } from 'semantic-ui-react';
 import { CREATE_SECTION_MUTATION } from '../../graphql/mutation/createSection';
 import { FETCH_USER_DETAIL_QUERY } from '../../graphql/query/fetchUserDetail';
-import { useForm } from '../../util/hooks';
 
 type Props = {
 } &  {props: {history: string[];}} 
@@ -15,16 +14,18 @@ function CreateSection(props: Props) {
     const userId = props.match.params.userId;
 
     // TODO 型付け
-    const { values, onChange, onSubmit }: any = useForm(createSectionCallback, {
+    const [ variables, setVariables ] = useState({
         sectionCode: '',
         sectionName: ''
     })
 
+    const [ errors, setErrors ] = useState<any>({});
+
     const [createSection, { loading }] = useMutation(CREATE_SECTION_MUTATION, {
         variables: {
             userId: userId,
-            sectionCode: values.sectionCode,
-            sectionName: values.sectionName
+            sectionCode: variables.sectionCode,
+            sectionName: variables.sectionName
         },
         update(cache, result) {
             const data = cache.readQuery({
@@ -43,13 +44,17 @@ function CreateSection(props: Props) {
                     }
                 }
             })
-            values.body = '';
-        }
+        },
+        onError: (err) => {
+            setErrors(err.graphQLErrors[0].extensions?.errors);
+        },
+        onCompleted: () =>  props.history.push(`/detail/${userId}`)
     })
 
-    function createSectionCallback() {
+    const submitCreateSectionForm = (e: FormEvent) => {
+        e.preventDefault();
+
         createSection();
-        props.history.push(`/detail/${userId}`);
     }
 
     return (
@@ -59,8 +64,8 @@ function CreateSection(props: Props) {
             </Grid.Row>
             <Grid.Row>
                 <Form
-                    onSubmit={onSubmit}
-                    noValidate
+                    error
+                    onSubmit={submitCreateSectionForm}
                     className={loading ? 'loading' : ''}
                     style={{ width: '80%'}}
                 >
@@ -69,16 +74,24 @@ function CreateSection(props: Props) {
                         placeholder='拠点コード'
                         name='sectionCode'
                         type='text'
-                        value={values.sectionCode}
-                        onChange={onChange}
+                        value={variables.sectionCode}
+                        onChange={(e) => setVariables({...variables, sectionCode: e.target.value})}
+                    />
+                    <Message 
+                        error
+                        content={errors.sectionCode}
                     />
                     <Form.Input 
                         label='拠点名'
                         placeholder='拠点名'
                         name='sectionName'
                         type='text'
-                        value={values.sectionName}
-                        onChange={onChange}
+                        value={variables.sectionName}
+                        onChange={(e) => setVariables({...variables, sectionName: e.target.value})}
+                    />
+                    <Message 
+                        error
+                        content={errors.sectionName}
                     />
                     <Button type='submit' color='teal'>
                         登録

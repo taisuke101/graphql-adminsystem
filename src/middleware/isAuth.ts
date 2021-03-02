@@ -1,14 +1,11 @@
 import { AuthenticationError } from "apollo-server-express";
-import { Request } from "express";
 import { MiddlewareFn } from "type-graphql";
 
-interface MiddlewareType {
-    req: Request
-}
+import { IsAuthType } from "../types/IsAuthType";
 
-export const isAuth: MiddlewareFn<MiddlewareType> = async({ context: { req }}, next) => {
+export const isAuth: MiddlewareFn<IsAuthType> = async({ context: { req }}, next) => {
     if (!req.headers.authorization)
-        throw new AuthenticationError('認証されていません！')
+        throw new AuthenticationError('認証されていません！');
     
     return next();
 }

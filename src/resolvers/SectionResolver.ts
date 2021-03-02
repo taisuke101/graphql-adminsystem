@@ -5,6 +5,7 @@ import { Section } from "../entity/Section";
 import { User } from "../entity/User";
 import { createSectionInput, updateSectionInput } from "../inputs/SectionInput";
 import { isAuth } from "../middleware/isAuth";
+import { validateCreateSectionInput } from "../utils/sectionValidators";
 
 @Resolver()
 export class SectionResolver {
@@ -12,6 +13,11 @@ export class SectionResolver {
     @Mutation(() => Section)
     async createSection(@Arg('userId') userId: string, @Arg('data') data: createSectionInput){
         try {
+            const { valid, errors } = validateCreateSectionInput(data);
+
+            if (!valid)
+                throw new UserInputError('Errors', { errors });
+
             const user = await User.findOne({ userId });
             if (!user)
                 throw new UserInputError('ユーザーが見つかりません！');
@@ -19,7 +25,7 @@ export class SectionResolver {
             const newSection = new Section({
                 user: user,
                 ...data
-            })
+            });
             
             const section = await newSection.save();
             
@@ -34,7 +40,7 @@ export class SectionResolver {
     @Mutation(() => Section)
     async updateSection(@Arg('userId') userId: string, @Arg('data') data: updateSectionInput) {
         try {
-            const section = await Section.findOne({ where: {user: userId}});
+            const section = await Section.findOne({ where: {user: userId} });
             if (!section)
                 throw new UserInputError('ユーザーが見つかりません！');
             
@@ -53,7 +59,7 @@ export class SectionResolver {
     @Mutation(() => String)
     async deleteSection(@Arg('userId') userId: string) {
         try {
-            const section = await Section.findOne({ where: {user: userId}});
+            const section = await Section.findOne({ where: {user: userId} });
             if (!section)
                 throw new UserInputError('ユーザーが見つかりません！');
             

@@ -1,40 +1,44 @@
-import React  from 'react';
+import React, { FormEvent, useState } from 'react';
 import { useMutation } from '@apollo/client';
 
-import { useForm } from '../../util/hooks';
 import { CREATE_USER_QUERY } from '../../graphql/mutation/createUser';
 import { FETCH_USER_QUERY } from '../../graphql/query/fetchUser';
 
-import { Button, Grid, Form } from 'semantic-ui-react'
+import { Button, Grid, Form, Message } from 'semantic-ui-react'
 
 function Create(props: { history: string[]; }) {
 
     //TODO 型付け
-    const { values, onChange, onSubmit }: any = useForm(createUserCallback, {
+    const [variables, setVariables] = useState({
         userId: '',
         password: '',
         confirmPassword: ''
-    })
+    });
+
+    const [errors, setErrors] = useState<any>({});
 
     const [createUser, { loading }] = useMutation(CREATE_USER_QUERY, {
-        variables: values,
-        update(proxy, result) {
-            const data = proxy.readQuery({
+        update(cache, result) {
+            const data = cache.readQuery({
                 query: FETCH_USER_QUERY
             })
-            proxy.writeQuery({ query: FETCH_USER_QUERY, data: {
+            cache.writeQuery({ query: FETCH_USER_QUERY, data: {
                 getUsers: {
                     result,
                     data
                 }
             }})
-            values.body = ''
-        }
+        },
+        onError: (err) => {
+            setErrors(err.graphQLErrors[0].extensions?.errors);
+        },
+        onCompleted: () => props.history.push('/register/success'),
     })
 
-    function createUserCallback() {
-        createUser();
-        props.history.push('/register/success');
+    const submitRegisterForm = (e: FormEvent) => {
+        e.preventDefault();
+
+        createUser({ variables });
     }
 
     return (
@@ -44,8 +48,8 @@ function Create(props: { history: string[]; }) {
             </Grid.Row>
             <Grid.Row>
                     <Form 
-                        onSubmit={onSubmit}
-                        noValidate
+                        error
+                        onSubmit={submitRegisterForm}
                         className={loading ? 'loading' : ''}
                         style={{width: '80%'}}
                     >
@@ -54,24 +58,36 @@ function Create(props: { history: string[]; }) {
                             placeholder='ユーザーID'
                             name='userId'
                             type='text'
-                            value={values.userId}
-                            onChange={onChange}
+                            value={variables.userId}
+                            onChange={(e) => setVariables({...variables, userId: e.target.value})}
+                        />
+                        <Message 
+                            error
+                            content={errors.userId}
                         />
                         <Form.Input 
                             label='パスワード'
                             placeholder='パスワード'
                             name='password'
                             type='password'
-                            value={values.password}
-                            onChange={onChange}
+                            value={variables.password}
+                            onChange={(e) => setVariables({...variables, password: e.target.value})}
+                        />
+                        <Message 
+                            error
+                            content={errors.password}
                         />
                         <Form.Input 
                             label='確認用パスワード'
                             placeholder='確認用パスワード'
                             name='confirmPassword'
                             type='password'
-                            value={values.confirmPassword}
-                            onChange={onChange}
+                            value={variables.confirmPassword}
+                            onChange={(e) => setVariables({...variables, confirmPassword: e.target.value})}
+                        />
+                        <Message 
+                            error
+                            content={errors.confirmPassword}
                         />
                         <Button type='submit' color='teal'>
                             登録

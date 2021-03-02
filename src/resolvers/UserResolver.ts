@@ -4,7 +4,7 @@ import { User } from "../entity/User";
 import bcrypt from 'bcrypt'; 
 
 import { createUserInput, updateUserInput } from "../inputs/UserInput";
-import { validateUserInput } from "../utils/validators";
+import { validateCreateUserInput, validateUpdateUserInput } from "../utils/userValidators";
 
 @Resolver()
 export class UserResolver {
@@ -33,20 +33,19 @@ export class UserResolver {
         try {
             const { userId, password, confirmPassword } = data;
             
-            const { valid, errors } = validateUserInput(userId, password, confirmPassword);
+            const { valid, errors } = validateCreateUserInput(userId, password, confirmPassword);
             
             if (!valid)
-                throw new UserInputError('Errors', { errors })
+                throw new UserInputError('Errors', { errors });
 
-
-            const userisTaken = await User.findOne({ userId })
+            const userisTaken = await User.findOne({ userId });
             if (userisTaken) 
-                throw new UserInputError('すでに存在しているユーザーIDです！')
+                throw new UserInputError('すでに存在しているユーザーIDです！');
 
             const user =  User.create({
                 userId,
                 password
-            })
+            });
 
             await user.save();
 
@@ -61,20 +60,22 @@ export class UserResolver {
     @Mutation(() => User)
     async updateUser(@Arg('userId') userId: string, @Arg('data') data: updateUserInput) {
         try {   
+            const { valid, errors } = validateUpdateUserInput(data)
+
+            if (!valid)
+                throw new UserInputError('Error', { errors });
+
             const user = await User.findOne({ userId });
             if (!user) 
                 throw new UserInputError('ユーザーが見つかりません！');
 
             const userIdIsTaken = await User.findOne(data.userId);
             if (userIdIsTaken) 
-                throw new UserInputError('すでに存在しているユーザーIDに変更できません！')
-            
-            if (data.password !== data.confirmPassword)
-                throw new UserInputError('パスワードが一致しません！')
+                throw new UserInputError('すでに存在しているユーザーIDに変更できません！');
 
-            const updatedUser = Object.assign(user, data)
+            const updatedUser = Object.assign(user, data);
             
-            const hashPassword = await bcrypt.hash(data.password, 12)
+            const hashPassword = await bcrypt.hash(data.password, 12);
             
             updatedUser.password = hashPassword;
 

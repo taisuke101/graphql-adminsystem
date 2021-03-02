@@ -66,6 +66,7 @@ function AllDeleteButton({ info, userId, user, employee, callback }: Props) {
                 onCancel={() => setConfirmOpen(false)}
                 content='本当に削除しますか？'
                 onConfirm={deleteObject}
+                size='large'
             />
         </>
     )
