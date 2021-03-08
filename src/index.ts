@@ -1,8 +1,8 @@
 import 'reflect-metadata';
 import { createConnection } from "typeorm";
 import express from 'express';
-import { buildSchema } from 'type-graphql';
-import { ApolloServer, UserInputError } from 'apollo-server-express';
+import { ArgumentValidationError, buildSchema } from 'type-graphql';
+import { ApolloError, ApolloServer, UserInputError } from 'apollo-server-express';
 import cors from 'cors';
 
 import { UserResolver } from './resolvers/UserResolver';
@@ -23,12 +23,23 @@ async function main() {
     });
     const server = new ApolloServer({ 
         schema,
-        formatError: (err) => {
-            if (err.message.includes('Argument Validation Error')) {
-                return new UserInputError('bad user input', {
-                    detail: err.extensions?.exception.validationErrors
-                })
+        formatError: (err: any) => {
+            if (err.originalError instanceof ApolloError) {
+                return err;
             }
+            if (err.originalError instanceof ArgumentValidationError) {
+                const errorMessage = err.extensions?.exception.validationErrors
+                const obj = errorMessage.map((e: { property: string, constraints: string}) => (
+                    { [e.property] : Object.values(e.constraints) }
+                ))
+                const errors = obj.reduce((result: string[], current: string[]) => {
+                    let key: any= Object.keys(current);
+                    result[key] = current[key]
+                    return result
+                }, {})
+                throw new UserInputError('Errors', { errors })
+            }
+
             return err;
         },
         context: ({ req, res }: ExpressType) => ({ req, res }) 

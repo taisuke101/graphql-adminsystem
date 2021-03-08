@@ -1,12 +1,10 @@
 import { UserInputError } from "apollo-server-express";
 import { Arg, Mutation, Resolver, UseMiddleware } from "type-graphql";
 
-
 import { Employee } from "../entity/Employee";
 import { User } from "../entity/User";
 import { createEmployeeInput, updateEmployeeInput } from "../inputs/EmployeeInput";
 import { isAuth } from "../middleware/isAuth";
-import { validateCreateEmployeeInput } from "../utils/employeeValidators";
 
 @Resolver()
 export class EmployeeResolver {
@@ -14,11 +12,6 @@ export class EmployeeResolver {
     @Mutation(() => Employee)
     async createEmployee(@Arg('userId') userId: string, @Arg('data') data: createEmployeeInput) {
         try {
-            const { valid, errors } = validateCreateEmployeeInput(data);
-
-            if (!valid)
-                throw new UserInputError('Errors', { errors });
-
             const user = await User.findOne({ userId });
             if (!user)
                 throw new UserInputError('ユーザーが見つかりません！');
