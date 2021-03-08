@@ -9,6 +9,7 @@ import Model from "./Model";
 @ObjectType()
 @Entity('users')
 export class User extends Model {
+    static password: any;
     constructor(user: Partial<User>) {
         super()
         Object.assign(this, user)
@@ -20,12 +21,16 @@ export class User extends Model {
 
     @Field(() => String!)
     @Column('varchar')
+    userName: string;
+
+    @Field(() => String!)
+    @Column('varchar')
     password: string;
 
     @Field(() => [Employee])
     @OneToMany(() => Employee, employee => employee.user)
     employee: Employee[];
-    
+
     @Field(() => [Section])
     @OneToMany(() => Section, section => section.user)
     section: Section[];
